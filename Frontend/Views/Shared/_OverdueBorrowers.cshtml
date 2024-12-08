@@ -1,0 +1,13 @@
+﻿@model List<Frontend.Models.OverdueBorrower>
+
+<div class="overdue-list">
+    @foreach (var borrower in Model)
+    {
+        <div class="overdue-item">
+            <div>
+                <strong>@borrower.Name</strong>
+                <p>Borrowed ID: @borrower.BorrowedId</p>
+            </div>
+         </div>
+    }
+</div>

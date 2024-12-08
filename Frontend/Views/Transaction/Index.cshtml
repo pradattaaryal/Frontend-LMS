@@ -1,0 +1,103 @@
+﻿@model List<Frontend.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Transaction Info";
+}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    .header {
+        height: 71px;
+    }
+
+    .body {
+        background: #F2F2F2;
+        padding: 35px 40px 0 40px;
+        height: calc(100% - 71px);
+        overflow-y: auto;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        border-radius: 4px;
+    }
+
+    .btn-Action {
+        width: 128px;
+        height: 52px;
+        background-color: #C7B303; /* Yellow for Edit */
+        color: white;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 20px; /* Rounded corners */
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer; /* Pointer on hover */
+    }
+
+    .btn:hover {
+        opacity: 0.9; /* Subtle hover effect */
+    }
+</style>
+
+<div style="width: 100%; display: flex; align-items: center;" class="header">
+    <img src="~/images/NavbarLogo/Issue.png" alt="Transaction Icon" style="width: 35px; height: 35px; margin-left: 40px; margin-right: 9px;">
+    <h2 style="margin: 0 0 0 10px;">Issue Book</h2>
+</div>
+
+<div class="body">
+    <!-- Transaction Form -->
+    <div class="card mb-4" style="background: #E3E3E3; padding: 22px 34px; border: none; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+        @{
+            var isEdit = ViewBag.IsEdit ?? false;
+            var transaction = ViewBag.Transaction ?? new Frontend.Models.Transaction();
+        }
+
+        <form asp-action="@((bool)isEdit ? "EditTransaction" : "AddTransaction")" method="post">
+            <div hidden>
+                <input type="hidden" class="form-control" name="TransactionId" value="@transaction.TransactionId" />
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Student ID</label>
+                    <input type="number" class="form-control" name="StudentId" value="@transaction.StudentId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">User ID</label>
+                    <input type="number" class="form-control" name="UserId" value="@transaction.UserId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Book ID</label>
+                    <input type="number" class="form-control" name="BookId" value="@transaction.BookId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Transaction Type</label>
+                    <select class="form-control" name="TransactionType" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required>
+                        <option value="Borrow">Borrow</option>
+                        <option value="Return">Return</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Date</label>
+                <input type="date" class="form-control" name="Date" value="@transaction.Date.ToString("yyyy-MM-dd")" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
+            </div>
+
+            <button type="submit" class="btn" style="background-color: #255D81;font-size:15px;font-weight:800; width: 160px; color: white; padding: 21px 56px; border: none; border-radius: 20px;">
+             ISSUE 
+            </button>
+        </form>
+    </div>
+</div>

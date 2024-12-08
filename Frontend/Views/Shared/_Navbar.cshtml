@@ -1,0 +1,118 @@
+﻿<style>
+    .vertical-nav {
+        position: sticky; /* Ensures the sidebar sticks */
+        top: 0; /* Sets the top offset for the sticky behavior */
+        width: 222px;
+        height: 100vh;
+        background-color: #255D81;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 51px;
+        z-index: 2; /* Keeps the sidebar above other content if necessary */
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Optional for better UI */
+    }
+
+        .vertical-nav .logo {
+            width: 152px;
+            height: 62px;
+            margin-left: 35px;
+            margin-right: 35px;
+        }
+
+        .vertical-nav .nav-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 45px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .vertical-nav a {
+            color: white;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            text-decoration: none;
+            width: 100%;
+            padding: 12px 0 16px 41px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+            .vertical-nav a img {
+                margin-right: 10px;
+                /* filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%); */
+            }
+
+            .vertical-nav a:hover {
+                background-color: #ffffff;
+                
+                color: black;
+            }
+
+   
+        .vertical-nav .nav-link.active {
+            background-color: #red;
+        }
+
+    /* Style for the image inside nav-link */
+    .nav-link img.nav-icon {
+        width: 20px;
+        height: 20px;
+         margin-right: 10px;
+        transition: transform 0.3s, border 0.3s;
+    }
+
+    .vertical-nav a.Author:hover img,
+    .vertical-nav a:nth-child(3):hover img ,
+    .vertical-nav a:nth-child(5):hover img, /* Third link */ /* Second link */
+    .vertical-nav a:nth-child(4):hover img { /* Third link */
+        filter: invert(35%) sepia(36%) saturate(600%) hue-rotate(185deg) brightness(90%) contrast(95%);
+    }
+
+   
+</style>
+
+<nav class="nav flex-column vertical-nav">
+    <!-- Logo Section -->
+    <div>
+        <img src="~/images/NavbarLogo/Logo.png" alt="Logo" class="logo">
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a class="nav-link" href="/Dashboard">
+            <img src="~/images/NavbarLogo/Settinng.png" alt="Setting Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+            DashBoard
+        </a>
+        <a class="nav-link Author" href="/Author">
+            <img src="~/images/NavbarLogo/Author.png" alt="Author Icon" class="nav-icon">
+            Author
+        </a>
+        <a class="nav-link" href="/Books">
+            <img src="~/images/NavbarLogo/Book.png" alt="Books Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+            Books
+        </a>
+        <a class="nav-link" href="/Student">
+            <img src="~/images/NavbarLogo/Student.png" alt="Student Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+            Students
+        </a>
+        <a class="nav-link" href="/TransactionView">
+            <img src="~/images/NavbarLogo/transaction.png" alt="Transaction Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+            Transaction
+        </a>
+        <a class="nav-link" href="/Transaction">
+            <img src="~/images/NavbarLogo/Issuing.png" alt="Issussing Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+            Issussing
+        </a>
+    </div>
+    <div asp-action="Logout" method="post" style="margin-top: auto; margin-bottom: 45px; width: 100%;">
+        <a class="nav-link" href="/Authentication/Logout">
+            <img src="~/images/NavbarLogo/Logout.png" alt="Logout Icon" style="width: 20px; height: 20px; margin-right: 10px;">
+            Logout
+        </a>
+    </div>
+</nav>

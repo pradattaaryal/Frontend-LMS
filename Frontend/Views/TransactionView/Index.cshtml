@@ -1,0 +1,87 @@
+﻿@model List<Frontend.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Transaction List";
+}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    .header {
+        height: 71px;
+    }
+
+    .body {
+        background: #F2F2F2;
+        padding: 35px 40px 0 40px;
+        height: calc(100% - 71px);
+        overflow-y: auto;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        border-radius: 4px;
+    }
+
+    .btn-Action {
+        width: 128px;
+        height: 52px;
+        background-color: #C7B303; /* Yellow for Edit */
+        color: white;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 20px; /* Rounded corners */
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer; /* Pointer on hover */
+    }
+
+    .btn:hover {
+        opacity: 0.9; /* Subtle hover effect */
+    }
+</style>
+
+<div style="width: 100%; display: flex; align-items: center;" class="header">
+    <img src="~/images/NavbarLogo/TransactionH.png" alt="Transaction Icon" style="width: 35px; height: 35px; margin-left: 40px; margin-right: 9px;">
+    <h2 style="margin: 0 0 0 10px;">Transaction List</h2>
+</div>
+
+<div class="body">
+    <!-- Transaction Details Table -->
+    <div style="background: #E3E3E3; padding: 22px 34px; border: none; border-radius: 8px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+         <table class="table">
+            <thead>
+                <tr style="text-align:center">
+                    <th>Transaction ID</th>
+                    <th>Student ID</th>
+                    <th>User ID</th>
+                    <th>Book ID</th>
+                    <th>Transaction Type</th>
+                    <th>Date</th>
+                     
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ttransaction in Model)
+                {
+                    <tr style="text-align:center">
+                        <td >@ttransaction.TransactionId</td>
+                        <td>@ttransaction.StudentId</td>
+                        <td>@ttransaction.UserId</td>
+                        <td>@ttransaction.BookId</td>
+                        <td>@ttransaction.TransactionType</td>
+                        <td>@ttransaction.Date.ToShortDateString()</td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,217 @@
+﻿@model Frontend.Models.DashBoard
+
+@{
+    ViewData["Title"] = "Dashboard Info";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    .header {
+        height: 71px;
+    }
+
+    .body {
+        background: #F2F2F2;
+        padding: 35px 40px 0 40px;
+        height: calc(100% - 71px);
+        overflow-y: auto;
+    }
+
+    .chart-section {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .chart-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 615px;
+        height: 485px;
+    }
+
+    .chart {
+        width: 80%;
+        height:80%;
+         
+    }
+
+    .legend-card {
+        width: 515px;
+        height:98px;
+        padding: 20px;
+        background: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+      
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    .legend-color {
+        width: 16px;
+        height: 16px;
+        margin-right: 10px;
+        border-radius: 4px;
+    }
+
+    .stats-card {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .stats-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #eaeaea;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #555;
+            margin-right: 16px;
+        }
+
+        .stats-card .details h3 {
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stats-card .details p {
+            font-size: 16px;
+            color: #777;
+            margin: 0;
+        }
+</style>
+
+<div style="width: 100%; display: flex; align-items: center;" class="header">
+    <img src="~/images/PageIcon/AutherPageIcon.png" alt="Author Icon" style="width: 35px; height: 35px; margin-left: 40px; margin-right: 9px;">
+    <h2 style="margin: 0 0 0 10px;">Dashboard Info</h2>
+</div>
+
+<div class="body">
+    <div style="display: flex; justify-content: space-between; width: 100%;   ">
+        <!-- Left Column (Chart Section) -->
+        <div class="chart-section" style="flex: 1;    flex-direction: column; align-items: center;">
+             <div class="chart-container">
+                <canvas id="pieChart" class="chart"></canvas>
+            </div>
+
+             <div class="legend-card" style="display: flex; flex-direction: row;  padding: 10px; align-items: center; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+                 <div style="width: 140px; height: 80px; margin-right:20px;border-right:3px solid black; padding-right:10px;">
+                    <img src="~/images/PageIcon/Di.png" alt="Legend Icon" style="width: 100%; height: 100%; object-fit: cover; ">
+                </div>
+
+                 <div id="chartLegend" style="padding-top:10px;color: white;vertical-align:middle; font-size: 1rem; display: flex; flex-direction: column; justify-content: center;">
+                 </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column (Stats Cards) -->
+        <div style="flex: 1; padding-left: 20px;">
+            <div class="col ">
+                <div class="col-md-4">
+                    <div class="stats-card" style="height:128px; width:484px; margin-bottom:30px;">
+                        <div style="   margin-right:25px;border-right:4px solid black;padding:0 15px 0 0 "><img src="~/images/PageIcon/u.png" /></div>
+                        <div class="details">
+                            <h3>@Model.TotalUserBase</h3>
+                            <p>Total User Base</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card" style="height:128px; width:484px; margin-bottom:30px;">
+                        <div style="  margin-right:25px;border-right:4px solid black;padding:0 15px 0 0 "><img src="~/images/PageIcon/u.png" /></div>
+                        <div class="details">
+                            <h3>@Model.TotalBookCount</h3>
+                            <p>Total Book Count</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card" style="height:128px; width:484px; margin-bottom:30px;">
+                        <div style="  margin-right:25px;border-right:4px solid black;padding:0 15px 0 0 "><img src="~/images/PageIcon/u.png" /></div>
+                        <div class="details">
+                            <h3>@Model.BranchCount</h3>
+                            <p>Branch Count</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div id="overdue-borrowers">
+                    @await Component.InvokeAsync("MyComponent")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const pieChartData = {
+        labels: @Html.Raw(Json.Serialize(new[] { "Total Borrowed Books", "Total Returned Books" })),
+        datasets: [{
+            data: @Html.Raw(Json.Serialize(new[] { Model.TotalBorrowedBooks, Model.TotalReturnedBooks })),
+            backgroundColor: ['#255D81', '#317FB1'],
+            hoverBackgroundColor: ['red', 'green']
+        }]
+    };
+
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: pieChartData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    const legendContainer = document.getElementById('chartLegend');
+    const labels = pieChartData.labels;
+    const colors = pieChartData.datasets[0].backgroundColor;
+
+    labels.forEach((label, index) => {
+        const legendItem = document.createElement('div');
+        legendItem.className = 'legend-item';
+
+        const colorBox = document.createElement('div');
+        colorBox.className = 'legend-color';
+        colorBox.style.backgroundColor = colors[index];
+
+        const labelText = document.createElement('span');
+        labelText.textContent = label;
+
+        legendItem.appendChild(colorBox);
+        legendItem.appendChild(labelText);
+        legendContainer.appendChild(legendItem);
+    });
+</script>

@@ -1,0 +1,138 @@
+﻿@model Frontend.Models.Login
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSMSS Library Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: "Outfit", sans-serif;
+        }
+
+        .log-in-form {
+            display: flex;
+            height: 100vh;
+            background:red;
+            
+        }
+
+        .login, .register {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+
+        }
+
+        .login {
+            background: #ffffff;
+            color: #000;
+            
+        }
+
+        .register {
+            background: #255d81;
+            color: #fff;
+            
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+            .form-group input {
+                width: 100%;
+                padding: 10px 20px;
+                border: 1px solid #000;
+                border-radius: 30px;
+                font-size: 20px;
+                color: #6a6a6a;
+                text-align: center; /* Optional if text inside input needs centering */
+            }
+
+
+        .login-btn {
+            padding: 12px 80px;
+            border: none;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .login-btn {
+            background: #255d81;
+            color: #fff;
+        }
+
+        .register-btn {
+            background: #d9d9d9;
+            color: #000;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="log-in-form container-fluid" style="--bs-gutter-x:0;" >
+        <!-- Log In Section (Left) -->
+        <div class="col-md-6 d-flex flex-column justify-content-center align-items-center login"  >
+            <form asp-action="Login" method="post" class="w-100 text-center" style="align-content:center;   ">
+                <img src="~/images/PageIcon/LLogo.png" alt="Library Logo" class="image-preview">
+                <div style="width:500px; margin:auto"><h2 style="font-size:30px;">HSMSS Library Management System</h2></div>
+                <p style="font-size:20px">Please enter your credentials</p>
+                <div style="width:100%;  display: flex; flex-direction:column; justify-content: center; align-items: center; margin:auto;">
+                    <div class="form-group d-flex flex-column align-items-center" style="  width:100%; max-width: 500px;">
+                        <input asp-for="Username" class="form-control" style="width: 80%;" placeholder="Username" required>
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group d-flex flex-column align-items-center" style="width:100%; max-width: 500px;">
+                        <input asp-for="Password" type="password" class="form-control" style="width: 80%;" placeholder="Password" required>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div style="width:100% ;">
+                    <div style=" width:60%;margin:auto; display: flex; flex-direction: column; align-items: flex-start; padding: 10px; ">
+                        <div class="forgot-password" style="margin-bottom: 10px;">Forgot Password?</div>
+                        <button type="submit" class="login-btn" style="align-self: flex-start;">Log In</button>
+                    </div>
+                </div>
+                
+
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <p class="text-danger">@ViewBag.ErrorMessage</p>
+                }
+            </form>
+        </div>
+
+
+        <!-- Register Section (Right) -->
+        <div class=" col-md-6 d-flex flex-column justify-content-center align-items-center register">
+            <div class="" style="width:366px"><img src="~/images/PageIcon/LLlogo.png" alt="Library Logo" class="image-preview">
+                <div class="" style="width:366px">
+                    <img src="~/images/PageIcon/HL.png" alt="Library Logo" class="image-preview">
+                    <p style="font-weight:500; font-size:32px;">New to our platform?</p>
+                    <p style="font-weight:500; font-size:32px;"><strong>Register Now</strong></p>
+                    <a asp-action="SignUp" style="padding:12px 96px;border-radius: 30px;" class="btn register-btn">Register</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
