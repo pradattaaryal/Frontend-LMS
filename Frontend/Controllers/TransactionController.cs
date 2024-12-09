@@ -3,16 +3,18 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Presentation.Repositories;
 using Frontend.Models;
+using Frontend.Repositories;
 
 namespace Presentation.Controllers
 {
     public class TransactionController : Controller
     {
         private readonly ITransactionRepository _transactionRepository;
-
-        public TransactionController(ITransactionRepository transactionRepository)
+        private readonly IStudentRepository _studentRepository;
+        public TransactionController(ITransactionRepository transactionRepository, IStudentRepository studentRepository)
         {
             _transactionRepository = transactionRepository;
+            _studentRepository = studentRepository;
         }
 
         // Get all transactions
@@ -20,6 +22,9 @@ namespace Presentation.Controllers
         public async Task<IActionResult> Index()
         {
             var transactions = await _transactionRepository.GetAllTransactionsAsync();
+            var students = await _studentRepository.GetAllStudentsAsync();
+            var studentData = students.Select(s => new { s.StudentId, s.Name }).ToList();
+            HttpContext.Session.SetObjectAsJson("StudentData", studentData);
             return View(transactions);
         }
 
@@ -34,7 +39,7 @@ namespace Presentation.Controllers
             {
                 var success = await _transactionRepository.AddTransactionAsync(transaction);
                 if (success)
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "TransactionView");
             }
 
             return View(transaction);
@@ -48,7 +53,7 @@ namespace Presentation.Controllers
             if (transaction == null)
                 return NotFound();
 
-            return View(transaction);
+             return RedirectToAction("Index", "TransactionView"); ;
         }
 
         // Edit a transaction (submit changes)

@@ -1,7 +1,8 @@
 ﻿@model List<Frontend.Models.Transaction>
-
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Transaction Info";
+    var studentData = HttpContextAccessor.HttpContext.Session.GetObjectFromJson<List<dynamic>>("StudentData");
 }
 
 <style>
@@ -65,11 +66,20 @@
             <div hidden>
                 <input type="hidden" class="form-control" name="TransactionId" value="@transaction.TransactionId" />
             </div>
+
+            <!-- Replace Student ID Input with Dropdown -->
             <div class="row mb-3">
                 <div class="col-md-8">
-                    <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Student ID</label>
-                    <input type="number" class="form-control" name="StudentId" value="@transaction.StudentId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
+                    <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Student</label>
+                    <select class="form-control" name="StudentId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required>
+                        <option value="" disabled selected>Select a Student</option>
+                         @foreach (var student in studentData)
+                        {
+                            <option value="@student.StudentId" >@student.Name</option>
+                        } 
+                    </select>
                 </div>
+                @*@(transaction.StudentId == student.StudentId ? "selected" : "")*@
                 <div class="col-md-4">
                     <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">User ID</label>
                     <input type="number" class="form-control" name="UserId" value="@transaction.UserId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
@@ -96,8 +106,9 @@
             </div>
 
             <button type="submit" class="btn" style="background-color: #255D81;font-size:15px;font-weight:800; width: 160px; color: white; padding: 21px 56px; border: none; border-radius: 20px;">
-             ISSUE 
+                ISSUE 
             </button>
         </form>
     </div>
 </div>
+ 
