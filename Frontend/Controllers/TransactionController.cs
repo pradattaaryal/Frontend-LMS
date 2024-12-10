@@ -39,11 +39,20 @@ namespace Presentation.Controllers
             {
                 var success = await _transactionRepository.AddTransactionAsync(transaction);
                 if (success)
+                {
+                    TempData["message"] = "Transaction added successfully!";
+                    TempData["isSuccess"] = true;
                     return RedirectToAction("Index", "TransactionView");
+                }
+
+                TempData["message"] = "Failed to add transaction.";
+                TempData["isSuccess"] = false;
+                return RedirectToAction("Index");
             }
 
             return View(transaction);
         }
+
 
         // Edit a transaction (renders edit view)
         [HttpGet]

@@ -1,0 +1,22 @@
+﻿@{
+    var message = TempData["message"] as string;
+    var isSuccess = TempData["isSuccess"] as bool?;
+}
+@if (!string.IsNullOrEmpty(message))
+{
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+        @if (isSuccess == true)
+        {
+            <text>toastr.success('@message'); </text>
+        }
+        else
+        {
+            <text>toastr.error('@message'); </text>
+        }
+                });
+    </script>
+}

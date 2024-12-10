@@ -32,6 +32,7 @@ namespace Frontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Login model)
         {
+            HttpContext.Session.SetString("User", model.Username);
             // Check if the user is already logged in
             var token = HttpContext.Request.Cookies["token"];
             if (!string.IsNullOrEmpty(token))
