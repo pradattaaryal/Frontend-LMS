@@ -22,6 +22,14 @@ namespace Presentation.Controllers
             var transactions = await _transactionRepository.GetAllTransactionsAsync();
             return View(transactions);
         }
-          
+        [HttpGet("search")]
+        public async Task<IActionResult> GetTransactionsByBookName([FromQuery] string bookName)
+        {
+            var transactions = await _transactionRepository.GetTransactionsByBookNameAsync(bookName);
+            return View("Index", transactions); // Render the Index.cshtml with filtered data
+        }
+
+
+
     }
 }

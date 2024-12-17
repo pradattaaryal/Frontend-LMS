@@ -21,7 +21,9 @@ namespace Frontend.Models
       
         public string ISBN { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number.")]
         public int Quantity { get; set; }
     }
+
 }
+

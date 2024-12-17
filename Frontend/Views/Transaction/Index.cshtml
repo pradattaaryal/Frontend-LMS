@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Transaction Info";
     var studentData = HttpContextAccessor.HttpContext.Session.GetObjectFromJson<List<dynamic>>("StudentData");
+    var bookData = HttpContextAccessor.HttpContext.Session.GetObjectFromJson<List<dynamic>>("bookData");
 }
 <partial name="_Notifiaction" />
 <style>
@@ -81,15 +82,20 @@
                 </div>
                 @*@(transaction.StudentId == student.StudentId ? "selected" : "")*@
                 <div class="col-md-4">
-                    <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">User ID</label>
-                    <input type="number" class="form-control" name="UserId" value="@transaction.UserId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
+                     <input type="number" class="form-control" name="UserId" value="@transaction.UserId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Book ID</label>
-                    <input type="number" class="form-control" name="BookId" value="@transaction.BookId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required />
+                     <select class="form-control" name="BookId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required>
+                        <option value="" disabled selected>Select a Book</option>
+                        @foreach (var Book in bookData)
+                        {
+                            <option value="@Book.BookId">@Book.Title</option>
+                        }
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Transaction Type</label>

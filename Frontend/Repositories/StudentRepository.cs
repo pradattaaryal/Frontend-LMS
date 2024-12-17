@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Frontend.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Frontend.Repositories
 {
@@ -17,7 +18,8 @@ namespace Frontend.Repositories
 
         public async Task<List<Student>> GetAllStudentsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<Student>>("https://localhost:7192/api/Student");
+            var Student = await _httpClient.GetFromJsonAsync<List<Student>>("https://localhost:7192/api/Student");
+            return Student?.OrderByDescending(s=> s.StudentId).ToList();
         }
 
         public async Task<Student> GetStudentByIdAsync(int id)

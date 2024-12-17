@@ -18,7 +18,9 @@ namespace Presentation.Repositories
         // Fetch all transactions
         public async Task<List<Transaction>> GetAllTransactionsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<Transaction>>("https://localhost:7192/api/Transaction");
+
+            var Transaction = await _httpClient.GetFromJsonAsync<List<Transaction>>("https://localhost:7192/api/Transaction");
+            return Transaction?.OrderByDescending(T=>T.TransactionId).ToList();
         }
 
         // Fetch a transaction by ID
@@ -47,5 +49,28 @@ namespace Presentation.Repositories
             var response = await _httpClient.DeleteAsync($"https://localhost:7192/api/Transaction/{id}");
             return response.IsSuccessStatusCode;
         }
+        public async Task<List<Transaction>> GetTransactionsByBookNameAsync(string bookName)
+        {
+            try
+            {
+                // Call the API and fetch the data
+                var response = await _httpClient.GetAsync($"https://localhost:7192/api/Transaction/book?bookName={bookName}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception($"API returned an error: {response.StatusCode}");
+                }
+
+                var transactions = await response.Content.ReadFromJsonAsync<List<Transaction>>();
+
+                return transactions?.OrderByDescending(t => t.TransactionId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while fetching transactions: {ex.Message}");
+            }
+        }
+
+
     }
 }

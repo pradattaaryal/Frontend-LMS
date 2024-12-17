@@ -1,6 +1,7 @@
 ﻿using Frontend.Models;
 using Frontend.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Frontend.Controllers
@@ -9,9 +10,10 @@ namespace Frontend.Controllers
     {
         private readonly AuthService _authService;
         private readonly HttpClient _httpClient;
-        public AuthenticationController(AuthService authService)
+        public AuthenticationController(AuthService authService, IHttpClientFactory httpClientFactory)
         {
             _authService = authService;
+            _httpClient = httpClientFactory.CreateClient();
         }
 
         // Default login page (GET: /Authentication/Index)
@@ -27,13 +29,41 @@ namespace Frontend.Controllers
 
             return View("Login"); // Show the login view
         }
+        [HttpGet]
+        public IActionResult _SignUpModal()
+        {
+            return View(); // Returns the signup view
+        }
 
+        // POST: /Authentication/SignUp
+        public async Task<IActionResult> _SignUpModal(SignUp model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var response = await _httpClient.PostAsJsonAsync("https://localhost:7192/api/Auth/signup", model);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index", "Authentication"); 
+                    }
+
+                    ModelState.AddModelError("", "Failed to sign up. Please try again.");
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "An error occurred while processing your request.");
+                }
+            }
+
+            return View(model); // Reload the signup page with errors
+        }
         // Handles login requests (POST: /Authentication/Login)
         [HttpPost]
         public async Task<IActionResult> Login(Login model)
         {
             HttpContext.Session.SetString("User", model.Username);
-            // Check if the user is already logged in
+           
             var token = HttpContext.Request.Cookies["token"];
             if (!string.IsNullOrEmpty(token))
             {

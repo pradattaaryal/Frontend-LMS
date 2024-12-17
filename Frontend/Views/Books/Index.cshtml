@@ -1,7 +1,9 @@
 ﻿@model List<Book>
-
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Book Info";
+    var AuthorData = HttpContextAccessor.HttpContext.Session.GetObjectFromJson<List<dynamic>>("AuthorData");
+
 }
 
 <style>
@@ -116,8 +118,14 @@
                 <input type="text" class="form-control" name="Title" value="@book.Title" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required>
             </div>
             <div class="mb-3">
-                <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">AuthorId</label>
-                <input type="text" class="form-control" name="AuthorId" value="@book.AuthorId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required>
+                <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Author </label>
+                 <select class="form-control" name="AuthorId" style="height: 65px; background-color: #D9D9D9; border: none; border-radius: 4px;" required>
+                    <option value="" disabled selected>Select a Author</option>
+                    @foreach (var Author in AuthorData)
+                    {
+                        <option value="@Author.AuthorID">@Author.Name</option>
+                    }
+                </select>
             </div>
             <div class="mb-3">
                 <label class="form-label" style="font-size: 14px; font-weight: bold; color: #333;">Genre</label>

@@ -8,6 +8,8 @@
         public int BookId { get; set; }
         public string TransactionType { get; set; } // "Borrow" or "Return"
         public DateTime Date { get; set; } = DateTime.Today; // Default date without time
-
+        public string studentName { get; set; }
+        public string LibarianName { get; set; }
+        public string BookName { get; set; }
     }
 }

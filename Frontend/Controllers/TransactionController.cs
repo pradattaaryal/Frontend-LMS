@@ -11,10 +11,12 @@ namespace Presentation.Controllers
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IStudentRepository _studentRepository;
-        public TransactionController(ITransactionRepository transactionRepository, IStudentRepository studentRepository)
+        private readonly IBookRepository _BookRepository;
+        public TransactionController(ITransactionRepository transactionRepository, IStudentRepository studentRepository, IBookRepository BookRepository)
         {
             _transactionRepository = transactionRepository;
             _studentRepository = studentRepository;
+            _BookRepository = BookRepository;
         }
 
         // Get all transactions
@@ -23,6 +25,9 @@ namespace Presentation.Controllers
         {
             var transactions = await _transactionRepository.GetAllTransactionsAsync();
             var students = await _studentRepository.GetAllStudentsAsync();
+            var Book = await _BookRepository.GetAllBooksAsync();
+            var bookData = Book.Select(b => new {b.BookId,b.Title}).ToList();
+            HttpContext.Session.SetObjectAsJson("bookData", bookData);
             var studentData = students.Select(s => new { s.StudentId, s.Name }).ToList();
             HttpContext.Session.SetObjectAsJson("StudentData", studentData);
             return View(transactions);
@@ -87,5 +92,8 @@ namespace Presentation.Controllers
             var success = await _transactionRepository.DeleteTransactionAsync(id);
             return RedirectToAction("Index");
         }
+
+         
+
     }
 }

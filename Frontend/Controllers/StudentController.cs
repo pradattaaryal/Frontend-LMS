@@ -21,6 +21,27 @@ namespace Frontend.Controllers
             var students = await _studentRepository.GetAllStudentsAsync();
             return View(students);
         }
+        [HttpPost]
+        public async Task<IActionResult> Indexx(int StudentId, string Name, string Email, string ContactNumber, string Department)
+        {
+            // Create a Student object from the form data
+            var student = new Student
+            {
+                StudentId = StudentId,
+                Name = Name,
+                Email = Email,
+                ContactNumber = ContactNumber,
+                Department = Department
+            };
+
+            // Pass data to the view for edit mode
+            ViewBag.IsEdit = true;
+            ViewBag.Student = student;
+
+             
+            var students = await _studentRepository.GetAllStudentsAsync();
+            return View("Index", students);
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddStudent(Student student)

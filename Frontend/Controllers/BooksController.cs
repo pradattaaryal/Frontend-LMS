@@ -9,16 +9,21 @@ namespace Frontend.Controllers
     public class BooksController : Controller
     {
         private readonly IBookRepository _bookRepository;
-
-        public BooksController(IBookRepository bookRepository)
+        private readonly IAuthorRepository _authorRepository;
+        public BooksController(IBookRepository bookRepository, IAuthorRepository authorRepository)
         {
             _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
+       
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var books = await _bookRepository.GetAllBooksAsync();
+            var Author=await _authorRepository.GetAllAuthorsAsync();
+            var AuthorData = Author.Select(A => new { A.AuthorID,A.Name }).ToList();
+            HttpContext.Session.SetObjectAsJson("AuthorData", AuthorData);
             return View(books);
         }
 

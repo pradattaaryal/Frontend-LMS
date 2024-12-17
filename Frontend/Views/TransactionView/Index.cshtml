@@ -47,11 +47,21 @@
         opacity: 0.9; /* Subtle hover effect */
     }
 </style>
+<div style="width: 100%; display: flex; justify-content: space-between; align-items: center;" class="header">
+    <div style="display: flex; align-items: center;">
+        <img src="~/images/NavbarLogo/TransactionH.png" alt="Transaction Icon" style="width: 35px; height: 35px; margin-left: 40px; margin-right: 9px;">
+        <h2 style="margin: 0 0 0 10px;">Transaction List</h2>
+    </div>
+    <div>
+        <form asp-action="GetTransactionsByBookName" method="get" style="background:#255D81; margin:10px; padding:4px; border-radius:10px;">
+            <input type="text" name="bookName" placeholder="Search by Book Name" style="border-radius:10px; height:50px;" />
+            <button type="submit" style="padding:10px; border-radius:10px;">Search</button>
+        </form>
 
-<div style="width: 100%; display: flex; align-items: center;" class="header">
-    <img src="~/images/NavbarLogo/TransactionH.png" alt="Transaction Icon" style="width: 35px; height: 35px; margin-left: 40px; margin-right: 9px;">
-    <h2 style="margin: 0 0 0 10px;">Transaction List</h2>
+    </div>
 </div>
+
+
 
 <div class="body">
     <!-- Transaction Details Table -->
@@ -60,9 +70,9 @@
             <thead>
                 <tr style="text-align:center">
                     <th>Transaction ID</th>
-                    <th>Student ID</th>
-                    <th>User ID</th>
-                    <th>Book ID</th>
+                    <th>Student</th>
+                    <th>Libarian</th>
+                    <th>Book</th>
                     <th>Transaction Type</th>
                     <th>Date</th>
                      
@@ -73,9 +83,9 @@
                 {
                     <tr style="text-align:center">
                         <td >@ttransaction.TransactionId</td>
-                        <td>@ttransaction.StudentId</td>
-                        <td>@ttransaction.UserId</td>
-                        <td>@ttransaction.BookId</td>
+                        <td>@ttransaction.studentName</td>
+                        <td>@ttransaction.LibarianName</td>
+                        <td>@ttransaction.BookName</td>
                         <td>@ttransaction.TransactionType</td>
                         <td>@ttransaction.Date.ToShortDateString()</td>
                         
